@@ -1,22 +1,26 @@
 package pinkod;
 
+import java.util.Random;
 import java.util.Scanner;
 
 public class Pinkod {
 
+    static Scanner sc = new Scanner(System.in);
+    static Random rnd = new Random();
     static int pin;
     static int belepesiKod;
-    static Scanner sc = new Scanner(System.in);
-
+    static String[] panelSzamok = {"0","1","2","3","4","5","6","7","8","9"};
+    
     public static void main(String[] args) {
-        
+
         pinProgram();
     }
 
     private static void pinProgram() {
         pinBekeres();
-        kodbekeres();
-        ellenorzes(); 
+        kodBekeres();
+        ellenorzes();
+        panelKeveres();
     }
 
     private static void pinBekeres() {
@@ -27,30 +31,46 @@ public class Pinkod {
             System.out.print("Kód megadása: ");
             kod = sc.next();
         }
+        int db=0;
+        for (int i = 0; i < panelSzamok.length; i++) {
+            System.out.printf(panelSzamok[i]," \t");
+            if (db==3) {
+                System.out.println("\n}");
+                db=1;
+            }
+            db++;
+        }
+        
+        pin = Integer.parseInt(kod);
         System.out.println("Pin elmentve!");
-        pin=Integer.parseInt(kod);  
     }
 
-    private static void kodbekeres() {
+    private static void kodBekeres() {
         System.out.print("Kérem a belépési kódot: ");
-        String kod= sc.next();
-        belepesiKod=Integer.parseInt(kod);
+        String kod = sc.next();
+        belepesiKod = Integer.parseInt(kod);
     }
 
     private static void ellenorzes() {
-        int db=0;
+        int db = 0;
         for (int i = 1; i < 3; i++) {
-            if (pin!=belepesiKod) {
+            if (pin != belepesiKod) {
                 System.out.println("Hibas pin kód!");
-                kodbekeres();
+                kodBekeres();
                 db++;
             }
         }
-        if (db<=2) {
+        if (db <= 2) {
             System.out.println("Rendben, sikeres belépés");
-        }else{
+        } else {
             System.out.println("Belépés megtagadva!");
         }
 
+    }
+
+    private static void panelKeveres() {
+        for (int i = 0; i < panelSzamok.length; i++) {
+            panelSzamok[i]=panelSzamok[9-(i*3)];
+        }
     }
 }
